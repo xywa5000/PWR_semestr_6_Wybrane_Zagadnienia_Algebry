@@ -1,132 +1,33 @@
-class Polynomial:
-    def __init__(self, coefficients):
-        # Usunięcie nadmiarowych zer z końca listy współczynników
-        while coefficients and coefficients[-1] == 0.0:
-            coefficients.pop()
-        self.coefficients = coefficients if coefficients else [0.0]
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-    def __repr__(self):
-        return f"Polynomial({self.coefficients})"
+from python_lib.Polynomial import Polynomial
 
-    def degree(self):
-        if len(self.coefficients) == 1 and self.coefficients[0] == 0.0:
-            return -1
-        else:
-            return len(self.coefficients) - 1
+# Przykładowe użycie funkcji
+a = Polynomial([6., 7., 1.])
+b = Polynomial([-6., -5., 1.])
+x = Polynomial([1., 0., 1.])
+y = Polynomial([1., 2., 1.])
 
-    def lc(self):
-        return self.coefficients[-1]
+print(f"\na = {a}")
+print(f"b = {b}")
+print(f"x = {x}")
+print(f"y = {y}\n")
 
-    def gcd(self, other):
-        if self.degree() < other.degree():
-            return other.gcd(self)
-        a = self
-        b = other
-        while b.coefficients != [0.0]:
-            _, r = a / b
-            a = b
-            b = r
-        return a
+print("1. true div (quotient, remainder):")
+print(f"\ta // b: {a//b}")
+print(f"\tb // a: {b//a}")
 
-    def lcm(self, other):
-        gcd = self.gcd(other)
-        product = self * other
-        return product // gcd
+print("2. GCD:")
+print(f"\tgcd(a, b): {a.gcd(b)}")
 
-    @staticmethod
-    def gcd_all(polynomials):
-        from functools import reduce
-        return reduce(lambda acc, x: acc.gcd(x), polynomials, Polynomial([0.0]))
+print("3. LCM:")
+print(f"\tlcm(a, b): {a.lcm(b)}")
 
-    @staticmethod
-    def ext_gcd(a, b):
-        if b.coefficients == [0.0]:
-            return a, Polynomial([1.0]), Polynomial([0.0])
-        q, r = a / b
-        d, s, t = Polynomial.ext_gcd(b, r)
-        return d, t, s - q * t
-
-    def __add__(self, other):
-        max_len = max(len(self.coefficients), len(other.coefficients))
-        result = [0.0] * max_len
-        for i in range(max_len):
-            if i < len(self.coefficients):
-                result[i] += self.coefficients[i]
-            if i < len(other.coefficients):
-                result[i] += other.coefficients[i]
-        while result and result[-1] == 0.0:
-            result.pop()
-        return Polynomial(result)
-
-    def __sub__(self, other):
-        max_len = max(len(self.coefficients), len(other.coefficients))
-        result = [0.0] * max_len
-        for i in range(max_len):
-            if i < len(self.coefficients):
-                result[i] += self.coefficients[i]
-            if i < len(other.coefficients):
-                result[i] -= other.coefficients[i]
-        while result and result[-1] == 0.0:
-            result.pop()
-        return Polynomial(result)
-
-    def __mul__(self, other):
-        result = [0.0] * (len(self.coefficients) + len(other.coefficients) - 1)
-        for i in range(len(self.coefficients)):
-            for j in range(len(other.coefficients)):
-                result[i + j] += self.coefficients[i] * other.coefficients[j]
-        return Polynomial(result)
-
-    def __truediv__(self, other):
-        q = Polynomial([0.0])
-        r = self
-        d = other
-        c = other.lc()
-        while r.degree() >= d.degree() and r.coefficients != [0.0]:
-            s = [0.0] * (r.degree() - d.degree())
-            s.append(r.lc() / c)
-            t = Polynomial(s)
-            q = q + t
-            r = r - (t * d)
-        return q, r
-
-    def __floordiv__(self, other):
-        return self.__truediv__(other)
-
-    def __eq__(self, other):
-        return self.coefficients == other.coefficients
-
-    def __str__(self):
-        if not self.coefficients or self.coefficients == [0.0]:
-            return "0"
-        terms = []
-        for i in range(len(self.coefficients)):
-            coeff = self.coefficients[i]
-            if coeff != 0.0:
-                if i == 0:
-                    terms.append(f"{coeff}")
-                elif i == 1:
-                    terms.append(f"{coeff}x")
-                else:
-                    terms.append(f"{coeff}x^{i}")
-        return " + ".join(reversed(terms))
-
-# Przykładowe użycie
-p1 = Polynomial([6., 7., 1.])
-p2 = Polynomial([-6., -5., 1.])
-
-
-print(p1.gcd(p2))   # Polynomial([12., 12.])
-
-p3 = Polynomial([6., 7., 1.])
-p4 = Polynomial([-6., -5., 1.])
-print(p1.lcm(p2))   # Polynomial([-3., -3., 1./12., 1./12.])
-
-p5 = Polynomial([1.0, 0.0, 1.0, 0.0, 1.0])
-p6 = Polynomial([-1.0, -2.0, -1.0, 0.0, 1.0])
-p7 = Polynomial([-1.0, 0.0, 0.0, 1.0])
-print(Polynomial.gcd_all([p5, p6, p7]))  # Polynomial([1.0])
-
-
-p8 = Polynomial([1.0, 1.0])
-print(Polynomial.ext_gcd(p1, p2))    # (Polynomial([1.0]), Polynomial([-2.0, 1.0]), Polynomial([1.0, -1.0]))
+# Rozwiązanie punktu 4.
+print("4. Ideals")
+print("\tc = (x^2 + 1; x^2 + 2x + 1)")
+print(f"\tc = {x.gcd(y)}")
+print("\td = (x^2 + 1) * (x^2 + 2x + 1)")
+print(f"\td = {x.lcm(y)}")
