@@ -3,6 +3,7 @@ from itertools import product
 from typing import List
 from random import shuffle
 
+
 class DataSet():
     def __init__(self, expo: int, value_func, border_func) -> None:
         self.expo = expo
@@ -54,11 +55,11 @@ def border2(value: int) -> bool:
 
 def main() -> int:
     s1 = DataSet(2, func1, border1)
-    points = s1.gen_points(0, 10)
+    points = s1.gen_points(0, 20)
     minimal = find_minimal(points)
     print(minimal)
     s2 = DataSet(2, func2, border2)
-    points = s2.gen_points(0, 10)
+    points = s2.gen_points(0, 20)
     minimal = find_minimal(points)
     print(minimal)
     return 0
