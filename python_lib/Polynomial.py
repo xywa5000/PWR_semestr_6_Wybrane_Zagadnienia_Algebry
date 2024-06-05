@@ -1,4 +1,5 @@
 # Polynomial.py
+from functools import reduce
 
 class Polynomial:
     def __init__(self, coefficients):
@@ -18,6 +19,28 @@ class Polynomial:
 
     def lc(self):
         return self.coefficients[-1]
+    
+    def divide_by_gcd(self):
+        if not self.coefficients or all(c == 0 for c in self.coefficients):
+            return self  # Jeśli wielomian jest zerowy, zwróć go bez zmian
+
+        def gcd(a, b):
+            while b:
+                a, b = b, a % b
+            return a
+
+        def find_gcd_of_list(lst):
+            return reduce(gcd, lst)
+
+        # Zamiana współczynników na liczby całkowite (lub ich absolutne wartości)
+        integer_coefficients = [abs(int(c)) for c in self.coefficients]
+
+        # Znalezienie GCD wszystkich współczynników
+        overall_gcd = find_gcd_of_list(integer_coefficients)
+
+        # Podzielenie każdego współczynnika przez GCD
+        self.coefficients = [c / overall_gcd for c in self.coefficients]
+        return self
 
     def gcd(self, other):
         if self.degree() < other.degree():
@@ -28,12 +51,14 @@ class Polynomial:
             _, r = a / b
             a = b
             b = r
+        a.divide_by_gcd()
         return a
 
     def lcm(self, other):
         gcd = self.gcd(other)
         product = self * other
-        return product // gcd
+        quotient, remainder = product // gcd
+        return quotient
 
     @staticmethod
     def gcd_all(polynomials):
