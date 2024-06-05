@@ -2,6 +2,7 @@ import sys
 from itertools import product
 from typing import List
 from random import shuffle
+import matplotlib.pyplot as plt
 
 
 class DataSet():
@@ -53,15 +54,37 @@ def border1(value: int) -> bool:
 def border2(value: int) -> bool:
     return value <= 25
 
+def plot_points(all_points: List[List[int]], minimal_points: List[List[int]], title: str) -> None:
+    all_x, all_y = zip(*all_points)
+    min_x, min_y = zip(*minimal_points)
+    
+    plt.figure(figsize=(10, 10))
+    plt.scatter(all_x, all_y, label='All Points', color='blue')
+    plt.scatter(min_x, min_y, label='Minimal Points', color='red')
+    plt.title(title)
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    plt.xticks(range(0, 21))
+    plt.yticks(range(0, 21))
+    plt.grid(True, which='major', linestyle='--', linewidth=0.5)
+    plt.minorticks_on()
+    plt.legend()
+    plt.show()
+
 def main() -> int:
     s1 = DataSet(2, func1, border1)
-    points = s1.gen_points(0, 20)
-    minimal = find_minimal(points)
-    print(minimal)
+    points1 = s1.gen_points(0, 20)
+    minimal1 = find_minimal(points1)
+    print("Minimal points for DataSet 1:", minimal1)
+    
     s2 = DataSet(2, func2, border2)
-    points = s2.gen_points(0, 20)
-    minimal = find_minimal(points)
-    print(minimal)
+    points2 = s2.gen_points(0, 20)
+    minimal2 = find_minimal(points2)
+    print("Minimal points for DataSet 2:", minimal2)
+    
+    # Plotting the points
+    plot_points(points1, minimal1, 'DataSet 1')
+    plot_points(points2, minimal2, 'DataSet 2')
     return 0
 
 if __name__ == '__main__':
