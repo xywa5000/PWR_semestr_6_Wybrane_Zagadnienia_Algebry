@@ -25,7 +25,9 @@ class GaussianNumber:
     def lcm(self, other):
         gcd = self.gcd(other)
         product = self * other
-        return product // gcd
+        quotient, remainder = product // gcd
+        #quotient.real, quotient.imag = quotient.imag, - quotient.real
+        return quotient
 
     def __add__(self, other):
         return GaussianNumber(self.real + other.real, self.imag + other.imag)
