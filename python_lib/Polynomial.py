@@ -24,13 +24,13 @@ class Polynomial:
         if not self.coefficients or all(c == 0 for c in self.coefficients):
             return self  # Jeśli wielomian jest zerowy, zwróć go bez zmian
 
-        def gcd(a, b):
+        def gcd_int(a, b):
             while b:
                 a, b = b, a % b
             return a
 
         def find_gcd_of_list(lst):
-            return reduce(gcd, lst)
+            return reduce(gcd_int, lst)
 
         # Zamiana współczynników na liczby całkowite (lub ich absolutne wartości)
         integer_coefficients = [abs(int(c)) for c in self.coefficients]
