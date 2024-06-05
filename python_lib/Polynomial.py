@@ -35,11 +35,10 @@ class Polynomial:
         # Zamiana współczynników na liczby całkowite (lub ich absolutne wartości)
         integer_coefficients = [abs(int(c)) for c in self.coefficients]
 
-        # Znalezienie GCD wszystkich współczynników
-        overall_gcd = find_gcd_of_list(integer_coefficients)
-
-        # Podzielenie każdego współczynnika przez GCD
-        self.coefficients = [c / overall_gcd for c in self.coefficients]
+        # Znalezienie GCD wszystkich współczynników i Podzielenie każdego współczynnika przez GCD
+        if integer_coefficients != [0.0]:
+            overall_gcd = find_gcd_of_list(integer_coefficients)
+            self.coefficients = [c / overall_gcd for c in self.coefficients]
         return self
 
     def gcd(self, other):
