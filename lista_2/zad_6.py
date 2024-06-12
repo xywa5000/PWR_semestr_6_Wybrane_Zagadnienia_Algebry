@@ -58,7 +58,7 @@ def plot_points(all_points: List[List[int]], minimal_points: List[List[int]], ti
     all_x, all_y = zip(*all_points)
     min_x, min_y = zip(*minimal_points)
     
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(8, 8))
     plt.scatter(all_x, all_y, label='All Points', color='blue')
     plt.scatter(min_x, min_y, label='Minimal Points', color='red')
     plt.title(title)
