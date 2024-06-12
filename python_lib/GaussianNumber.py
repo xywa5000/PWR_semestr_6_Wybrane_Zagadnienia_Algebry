@@ -14,19 +14,14 @@ class GaussianNumber:
     def gcd(self, other):
         if self.norm() < other.norm():
             return other.gcd(self)
-        a = self
-        b = other
-        while True:
-            quotient, remainder = a // b
-            if remainder == GaussianNumber(0, 0):
-                return b
-            a, b = b, remainder
+        while other.norm() != 0:
+            self, other = other, (self // other)[1]
+        return self
 
     def lcm(self, other):
         gcd = self.gcd(other)
         product = self * other
         quotient, remainder = product // gcd
-        #quotient.real, quotient.imag = quotient.imag, - quotient.real
         return quotient
 
     def __add__(self, other):
@@ -42,10 +37,8 @@ class GaussianNumber:
         )
 
     def __truediv__(self, other):
-        real_quotient = round((self.real * other.real + self.imag * other.imag) / (other.real ** 2 + other.imag ** 2))
-        imag_quotient = round((self.imag * other.real - self.real * other.imag) / (other.real ** 2 + other.imag ** 2))
-        quotient = GaussianNumber(real_quotient, imag_quotient)
-        remainder = self - other * quotient
+        quotient = GaussianNumber((self.real * other.real + self.imag * other.imag) // other.norm(), (self.imag * other.real - self.real * other.imag) // other.norm())
+        remainder = self - quotient * other
         return quotient, remainder
 
     def __floordiv__(self, other):
