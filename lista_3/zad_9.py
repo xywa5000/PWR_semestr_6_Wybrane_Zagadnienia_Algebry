@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import sqrt
 
-def plot_curve(func, rng, title):
+def plot_curve(func, rng, title, x_range, y_range):
     x = np.linspace(-rng, rng, 1000)
     y = np.linspace(-rng, rng, 1000)
 
@@ -16,8 +16,8 @@ def plot_curve(func, rng, title):
         plt.scatter(point[0], point[1], color='red')
 
     plt.title(title)
-    plt.xticks(range(-9, 10))
-    plt.yticks(range(-9, 10))
+    plt.xticks(range(x_range[0], x_range[1]))
+    plt.yticks(range(y_range[0], y_range[1]))
     plt.grid(True, which='major', linestyle='--', linewidth=0.5)
     plt.show()
 
@@ -32,6 +32,6 @@ def func3(x, y):
 
 if __name__ == "__main__":
     
-    plot_curve(func1, 10, '$(x^2 + y^2 + 4y)^2 - 16(x^2 + y^2) = 0$')
-    plot_curve(func2, 10, '$2(x^2 + 9)(y^2 - 16) + (x^2 - 9)^2 + (y^2 - 16)^2 = 0$')
-    plot_curve(func3, 1.5, '$350x^2y^2 - 15^2(x^2 + y^2) + 12^2(x^4 + y^4) + 81 = 0$')
+    plot_curve(func1, 10, '$(x^2 + y^2 + 4y)^2 - 16(x^2 + y^2) = 0$', [-9, 10], [-9, 10])
+    plot_curve(func2, 10, '$2(x^2 + 9)(y^2 - 16) + (x^2 - 9)^2 + (y^2 - 16)^2 = 0$', [-9, 10], [-9, 10])
+    plot_curve(func3, 1.5, '$350x^2y^2 - 15^2(x^2 + y^2) + 12^2(x^4 + y^4) + 81 = 0$', [-2, 3], [-2, 3])

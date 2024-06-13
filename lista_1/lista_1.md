@@ -121,6 +121,6 @@ Polecenia systemu Wolfram Alpha do działań na wielomianach:
 
 Polecenia systemu Wolfram Alpha do genrowania krzywych i powierzchni:
 
-- $ ParametricPlot(x+y^2, {x, -10, 10}, {y, -10, 10}) $ - powierzchnia
+- $ ParametricPlot(x+y^2, \{x, -10, 10\}, \{y, -10, 10\}) $ - powierzchnia
 
-- $ ParametricPlot(sin(x)+y^2=0, {x, -10, 10}, {y, -10, 10}) - krzywa
+- $ ParametricPlot(sin(x)+y^2=0, \{x, -10, 10\}, \{y, -10, 10\}) $ - krzywa
